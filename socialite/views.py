@@ -195,9 +195,8 @@ def send_request(request,id):
 
 def accept_request(request,id):
 
-    # to_user=request.user
+   
     friend_request=FriendRequest.objects.get(id=id)
-    # profile=Profile.objects.get(user=request.user)
     user1=request.user
     user2=friend_request.from_user
     user1.profile.friends.add(user2)
@@ -216,8 +215,6 @@ def friend_request_view(request):
 def friends_list(request,id):
     profile=user_profile.objects.get(id=id)
     friends=profile.friends.all()
-    # profile=user_profile.objects.all()
-    # friends=profile.friends.all()
     context={
         'friends':friends,
         'profile':profile
