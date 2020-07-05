@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Login|{{ block.super }}{% endblock %}
+
+{% block content %}
+
+    <div class="messages mt-3">
+        {% if messages %}
+            {% for message in messages %}
+                <p class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    <div class="log_in" align="center"  style="margin-top: 50px;">
+    <h2>Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ login_form.as_p }}
+    <input type="submit" value="Login" class="btn btn-primary"><br>
+        <small>New to socialite?<a href="{% url 'user_register' %}">Register</a> </small>
+    </form>
+    </div>
+
+{% endblock %}

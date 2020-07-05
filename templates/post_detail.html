@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container mt-5"  style="margin-top: 30px;">
+    <div class="card" style="width: 580px;border: none;">
+        <div class="card-body">
+        <h2>
+
+             {% if post.created_by.profile.photo %}
+                        <img src="{{ post.created_by.profile.photo.url }}" class="rounded-circle" width="35px;" height="35px;">
+                    {% else %}
+                        <img src="/media/default.png" class="navbar-img" width="35px;" height="35px;">
+                    {% endif %}
+
+            <a href="{% url 'profile_view' post.created_by.id %}">{{ post.created_by.first_name }} {{ post.created_by.last_name }}</a> </h2>
+        <h5>{{ post.title|default_if_none:"" }}</h5>
+        <small class="timestamp">Posted on {{ post.created_on }}</small>
+        <hr>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" width="380" height="380"><br><br>
+        {% endif %}
+            <p>{{ post.content}}</p>
+
+                <p>{{ post.content2 }}</p>
+
+            {{ total_likes }} Like{{ total_likes|pluralize }}
+             <form action="{% url 'like_post' %}" method="post">{% csrf_token %}
+                            {% if is_liked %}
+                                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-danger">Dislike</button>
+                            {% else %}
+                                <button type="submit" name="post_id" value="{{ post.id }}" class="btn btn-primary">Like</button>
+                            {% endif %}
+                        </form>
+<hr>
+        <form method="post">{% csrf_token %}
+            {{ comment_form.as_p }}
+            <input type="submit" value="Submit" class="btn btn-primary">
+        </form>
+<br>
+
+         <div class="comment-section">
+         {{ comments.count }} Comment{{ comments|pluralize }}
+        {% for comment in comments %}
+
+            <blockquote class="blockquote">
+              <p class="mb-0">{{ comment.content }}</p>
+              <footer class="blockquote-footer">by <cite title="Source Title">{{ comment.user|capfirst }}</cite></footer>
+            </blockquote>
+
+        {% endfor %}
+    </div>
+
+    </div>
+</div>
+    </div>
+
+
+
+{% endblock %}

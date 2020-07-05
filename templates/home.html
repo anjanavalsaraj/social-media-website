@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}Home|{{ block.super }}{% endblock %}
+{% block content %}
+
+    <div class="messages mt-3">
+        {% if messages %}
+           {% for message in messages %}
+                <p class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+           {% endfor %}
+        {% endif %}
+    </div>
+
+
+  <div class="container mt-5">
+            <div class="row">
+                <div class="col-sm-3">
+
+                  <ul class="nav flex-column">
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link disabled" href="#">Disabled</a>
+                    </li>
+                  </ul>
+
+
+                </div>
+
+
+
+                <div class="col-sm-6">
+                <div class="card" >
+                            <div class="card-body">
+                                <form method="post">{% csrf_token %}
+{#                <textarea placeholder="Write something" name="tb"></textarea>#}
+                                    {{ form }}
+                                <input type="submit" value="Post" class="btn btn-primary">
+                                    </form>
+                            </div></div>
+      <br>
+
+
+
+
+                    {% for p in post_list %}
+                      <div class="card" >
+                            <div class="card-body">
+                                <a href="{% url 'profile_view' p.created_by.id %}"><h4>
+
+                                    {% if p.created_by.profile.photo %}
+                        <img src="{{ p.created_by.profile.photo.url }}" class="rounded-circle" width="35px;" height="35px;">
+                    {% else %}
+                        <img src="/media/default.png" class="navbar-img" width="35px;" height="35px;">
+                    {% endif %}
+
+
+                                    {{ p.created_by.first_name }} {{ p.created_by.last_name }}</h4></a> <br>
+                                <h5>{{ p.title|default_if_none:"" }}</h5><small class="timestamp">Posted on {{ p.created_on }}</small><br>
+                                {% if p.image %}
+                                <a href="{{ p.get_absolute_url }}"> <img src="{{ p.image.url }}" width="300px;" height="300px;"></a>
+                                {% endif %}
+                                <p>{{ p.content|default_if_none:""|slice:"200" }}</p>
+                            <p>{{ p.content2|default_if_none:""|slice:"200" }}</p>
+
+
+
+                            <a href="{{ p.get_absolute_url }}" style="float:right;">Show more..</a>
+
+                            </div>
+
+                          </div>
+                        <br>
+
+                        {% empty %}
+                            <div class="container-fluid">
+                            <p>No results found for "{{ request.GET.q }}"</p>
+                            </div>
+                    {% endfor %}
+
+
+
+                </div>
+
+
+                <div class="col-sm-3">
+
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link disabled" href="#">Disabled</a>
+                        </li>
+                      </ul>
+
+
+
+
+                </div>
+              </div>
+        </div>
+
+
+{% endblock %}

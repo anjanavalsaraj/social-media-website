@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Friend request|{{ block.super }}{% endblock %}
+{% block content %}
+<div class="container mt-5"  style="margin-top: 30px;">
+<h2>Friend request</h2>
+{% if friend_request %}
+    {% for f in friend_request %}
+        {{ f.from_user|capfirst }} send you a request.<a href="{% url 'accept_request'  f.id %}">Accept</a><br>
+    {% endfor %}
+{% else %}
+    <small style="color: grey;">No friend requests to show</small>
+{% endif %}
+</div>
+
+{% endblock %}

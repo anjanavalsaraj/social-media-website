@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Friends|{{ block.super }}{% endblock %}
+{% block content %}
+<div class="container mt-5"  style="margin-top: 30px;">
+    <h2>See {{ profile.user.username|capfirst }}'s friends</h2>
+    {% for friends in friends%}
+        {% if friends.profile.photo %}<img src="{{ friends.profile.photo.url }}" class="rounded-circle" width="35px;" height="35px;">
+        {% else %}
+            <img src="/media/default.png" class="rounded-circle" width="35px;" height="35px;">
+        {% endif %}
+        <a href="{% url 'profile_view' friends.profile.id %}"> {{ friends.first_name }} {{ friends.last_name }}<br><br></a>
+
+
+    {% endfor %}
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block title %}Profile|{{ block.super }}{% endblock %}
+{% block content %}
+
+<div class="container">
+<div class="row align-items-center" style="margin-top: 20px;">
+    <div class="col-md-6">{% if profile.photo %}
+        <img src="{{ profile.photo.url }}" class="rounded-circle" alt="Responsive image" width="260" height="260">
+    {% else %}
+       <img src="/media/default.png" class="rounded-circle" alt="Responsive image" width="260" height="260">
+    {% endif %}
+    </div>
+
+    <div class="col-md-6" style="margin-top: 20px;">
+                   <h2>{{ profile.user.first_name}} {{ profile.user.last_name }}</h2>
+                    <p><i class='fas fa-home'></i> Lives in <a href="#">{{ profile.place }}</a></p>
+    {% if profile.profession %}
+        <p><i class='fas fa-briefcase'></i> <a href="#">{{ profile.profession }}</a>{% if profile.company %} at <a href="#">{{ profile.company }}</a>{% endif %}
+    {% endif %}
+        <p><i class='fas fa-birthday-cake'></i> Wish me on {{ profile.dob }}</p>
+        <p><i class='fas fa-user-friends'></i> {{ profile.friends.count }} <a href="{% url 'friends' profile.user.id %}">Friend{{ profile.friends.count|pluralize }}</a></p>
+
+        <div class="add-friend">
+    {% if request.user.profile %}
+            {% if not user in friends %}
+                <a href="{% url 'add_friend' profile.user.id %}"><input type="submit" value="Add friend" class="btn btn-primary"></a>
+            {% else %}
+                <input type="submit" value="Friends" class="btn btn-primary">
+            {% endif %}
+    {% else %}
+        <h4>bla</h4>
+        {% endif %}
+        </div>
+
+
+
+ <small><a href="#" style="float: right">Edit Profile</a></small>
+
+                </div>
+
+</div>
+</div>
+    <hr>
+
+<div class="container" style="margin-top: 20px;">
+    <h2 class="text-center">See {{ profile.user.first_name }}'s posts</h2>
+
+    <div class="row" style="margin-top: 20px;">
+{% for posts in posts %}
+        <div class="col-md-3">
+
+{#            <div class="card">#}
+{#                <div class="card-body">#}
+{##}
+{#                    {% if posts.image %}#}
+{#                        <img src="{{ posts.image.url }}" width="200" height="200">#}
+{#                    {% endif %}#}
+{##}
+{#                </div>#}
+{#            </div>#}
+{% if posts.image %}
+    <a href="{{ posts.get_absolute_url }}"><img src="{{ posts.image.url }}" class="img-thumnail" width="250" height="250" style="float:left;"></a>
+
+{% endif %}
+
+
+
+        </div>
+
+    {% endfor %}<br>
+<hr>
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}
